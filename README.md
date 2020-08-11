@@ -57,7 +57,7 @@ Create _a function_ that changes the cell's states according to the following **
 
 ### User Story 3
 
-Copy and flip grid to make a complete image (so the grid has a size of 10x10). Add an outline (just add a new cell state, I marked it as the brown color).
+Copy and flip grid to make a complete image (so the grid has a size of 10x10). Add an outline according to the Von Neumann  neighborhood (just add a new cell state, I marked it as the brown color).
 
 ![](attachments/76070456-e56db100-5fd7-11ea-9fed-4c178bf0a756.png)
 
