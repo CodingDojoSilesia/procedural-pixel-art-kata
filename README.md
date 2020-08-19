@@ -1,3 +1,90 @@
+# Zadanie: Proceduralny Pixel Art
+
+## O zadaniu
+
+Poziom trudności: średni.
+Uczy: algorytmy.
+
+Pomysł algorytmu, jak również przykładowe obrazki zostały pierwotnie oblikowane [tutaj](https://github.com/yurkth/sprator#theory).
+
+## Opis zadania
+
+Twoim zadaniem jest napisanie programu, który wygeneruje kolorowe obrazki w stylu Pixel Art z wykorzystaniem bardzo prostego automatu komórkowego.
+
+### _(opcjonalne)_ Czym jest automat komórkowy?
+
+Wyjaśnię, czym jest automat komórkowy za pomocą prostego przykładu. Zacznijmy od zwykłej, dwuwymiarowej tablicy liczb o rozmiarze 3x3:
+```
++---+---+---+
+| 0 | 1 | 0 |
+| 0 | 1 | 0 |
+| 0 | 0 | 1 |
++---+---+---+
+```
+
+Tablicę te nazywamy **siatką komórek**! Każda **komórka** ma określony **stan**. W moim przykładzie stan reprezentowany jest przez liczbę (ale nic nie stoi na przeszkodzie, aby użyć innego typu danych!) i ma dwie możliwe wartości: `1` oraz `0`, które oznaczają odpowiednio _żywa komórka_ oraz _martwa komórka_. Dodatkowo każda komórka ma swoje **sąsiedztwo**, które można zdefiniować na wiele sposobów. Jednakże, najczęściej sąsiedztwem nazywamy listę przyległych, sąsiadujących komórek (najpopularniejsze są sąsiedztwa wyznaczane metodą [Moore-a](https://en.wikipedia.org/wiki/Moore_neighborhood) i [Von Neumann-a](https://en.wikipedia.org/wiki/Von_Neumann_neighborhood)).
+
+Każdy automat komórkowy ma **zbiór reguł**. **Regułą** nazywamy funkcje, która określa następny stan komórki, bazując na jej obecnym stanie oraz stanach komórek z jej sąsiedztwa. I tyle! Twój algorytm po prostu przegląda wszystkie komórki i tworzy nową **generację** komórek przez określenie kolejnych stanów zgodnie ze zbiorem reguł. Początkowy stan automatu (mówimy o nim `t = 0`) utworzony jest poprzez przypisanie (ręcznie, automatycznie lub losowo) stanu do każdej komórki.
+
+W moim przykładzie zbiór zasad jest bardzo prosty: _Jeżeli komórka ma co najmniej dwóch żywych sąsiadów (wg sąsiedztwa Moore-a), to będzie żywa. W innym przypadku umiera._
+```
++---+---+---+   +---+---+---+   +---+---+---+
+| 0 | 1 | 0 |   | 0 | 0 | 0 |   | 0 | 0 | 0 |
+| 0 | 1 | 0 |   | 0 | 1 | 0 |   | 0 | 0 | 0 |
+| 0 | 0 | 1 |   | 0 | 0 | 0 |   | 0 | 0 | 0 |
++---+---+---+   +---+---+---+   +---+---+---+
+     t=0             t=1             t=2
+```
+W drugiej generacji tylko komórka znajdująca się na środku przeżywa. Inne komórki umarły, bo nie miały wystarczająco dużo przyjaciół wokół siebie. W kolejnym kroku czasowym wszystkie komórki są już martwe. To wszystko, co musisz wiedzieć o automatach komórkowych. Proste prawda? Zatem zapraszam do zadania!
+
+### Podpowiedź!
+
+Poza kartą wymagań nr 4 nie ma wymagania, aby wyświetlić w jakikolwiek sposób generowany automat komórkowy! Wykorzystaj ten czas, aby ulepszyć swoje testy!
+
+### Karta wymagań 1
+
+Załóżmy, że komórka może mieć tylko dwa stany: **żywa** lub **martwa**. Stwórz siatkę komórek o rozmiarze **5x10** i wygeneruj losowy szum (tj. wartości ze zbioru `{0,1}`) w środkowej, dosuniętej do prawej części podsiatki o wymiarze **4x8** (pozostaw z góry, dołu i prawa obrys o szerokości jednej komórki). _Dalej nie wiesz, o co chodzi?_ Spójrz na obrazek poniżej, biały i żółty kolor oznacza odpowiednio martwe i żywe komórki.
+
+![](attachments/76070404-d38c0e00-5fd7-11ea-9ec2-674813c12490.png)
+
+### Karta wymagań 2
+
+Zaimplementuj funkcje, która utworzy kolejną generację komórek zgodnie z następującym zbiorem reguł:
+- Nie zmieniaj komórek znajdujących się w obrysie, możesz je uznać za martwe.
+- Każda żywa komórka z dwoma lub trzema żywymi sąsiadami przeżywa (wg sąsiedztwa Moore-a).
+- Każda martwa komórka z co najwyżej jednym żywym sąsiadem staje się żywa.
+- W każdym innym przypadku komórka umiera lub jest dalej martwa.
+
+**Wykonaj funkcję dwukrotnie**. Sprawdź obrazek poniżej, aby zobaczyć, jaki jest oczekiwany wynik.
+
+![](attachments/76137835-c8db8280-6084-11ea-80e8-68d436590d7b.png)
+
+### Karta wymagań 3
+
+Skopiuj i odwróć siatkę, by utworzyć kompletny obraz (tj. lustrzane odbicie, tak aby siatka miała wymiar 10x10). Dodaj obrys zgodnie z sąsiedztwem Von Neumann-a (na rysunku poniżej zaznaczyłem te komórki na brązowo). 
+
+![](attachments/76070456-e56db100-5fd7-11ea-9fed-4c178bf0a756.png)
+
+W tym momencie masz w pełni funkcjonalny proces generowania obrazków w stylu Pixel Art. Jako ostatnie wymaganie (o ile masz czas) możesz wykonać kolejny krok.
+
+### _(opcjonalna)_ Karta wymagań 4
+
+W ostatnim kroku, zamień stany komórek na kolory i zapisz automat jako prawdziwy obraz!
+
+## Wskazówki
+
+Pisz prosto! Utwórz zbiór funkcji o pojedynczej odpowiedzialności (tj. funkcja odpowiada tylko za jedną rzecz) oraz wykorzystaj wbudowane typy danych (tablice i liczby dadzą radę!).
+
+## Sugestie przypadków testowych
+
+- Czy wylosowana na początku tablica ma właściwy wymiar?
+- Czy wszystkie komórki należące do obrysu są martwe?
+- Czy kolejny stan komórki jest wyliczany poprawnie?
+- Czy funkcja odwracająca siatkę działa poprawnie?
+- Czy dodany kontur jest prawidłowy?
+
+---
+
 # Procedural Pixel Art Kata
 
 ## About this Kata
@@ -36,6 +123,10 @@ The ruleset in my example is very simple: _If a cell has at least two alive neig
 ```
 
 In my example's second generation, the only alive cell is that one in the center. This is because the other ones didn't have enough alive friends. In the next time step, all cells are dead (you know why? right?). That's all, Folks! You have now all theory to complete the Kata!
+
+### Hint!
+
+Except the optional user story 4, there is **no requirement** for displaying a cellular automaton! Use your time for making your tests better!
 
 ### User Story 1
 
