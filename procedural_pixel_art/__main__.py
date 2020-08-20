@@ -5,7 +5,11 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # this code will execute on running
-from procedural_pixel_art import generate_random_grid, save_grid
+import procedural_pixel_art
 
-grid = generate_random_grid()
-save_grid(grid)
+grid = procedural_pixel_art.generate_random_grid()
+grid = procedural_pixel_art.do_step(grid)
+grid = procedural_pixel_art.do_step(grid)
+grid = procedural_pixel_art.make_mirror(grid)
+grid = procedural_pixel_art.make_border(grid)
+procedural_pixel_art.save_grid(grid)
